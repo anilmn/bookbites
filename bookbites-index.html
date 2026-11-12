@@ -1,0 +1,844 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Book Bites - Interactive Prototype</title>
+
+<style>
+:root {
+  --navy: #182c3b;
+  --green: #279b79;
+  --ink: #20313d;
+  --muted: #687782;
+  --line: #e2e8eb;
+  --bg: #f5f7f8;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 15px/1.5 Arial, sans-serif;
+}
+
+button {
+  cursor: pointer;
+  border: 0;
+  border-radius: 12px;
+  padding: 10px 14px;
+  background: var(--green);
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+button.secondary {
+  background: white;
+  color: var(--ink);
+  border: 1px solid var(--line);
+}
+
+button.ghost {
+  background: transparent;
+  color: var(--muted);
+}
+
+header {
+  background: var(--navy);
+  color: white;
+  padding: 18px max(18px, calc((100% - 900px)/2));
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.logo {
+  display: grid;
+  place-items: center;
+  background: #e7b96a;
+  color: #182c3b;
+  border-radius: 10px;
+  width: 36px;
+  height: 36px;
+  font-size: 22px;
+}
+
+.tagline {
+  color: #d5e0e8;
+  font-size: 13px;
+  margin: 4px 0 14px 46px;
+}
+
+nav {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+nav button {
+  background: #263e4f;
+  color: white;
+  flex: 1;
+  min-width: 100px;
+}
+
+nav button.active {
+  background: #476276;
+}
+
+main {
+  max-width: 900px;
+  margin: 22px auto;
+  padding: 0 16px 40px;
+}
+
+.panel {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 18px #1d33400a;
+}
+
+h1 { font-size: 28px; margin: 0 0 4px; }
+h2 { font-size: 21px; margin: 0 0 12px; }
+h3 { font-size: 17px; margin: 0 0 6px; }
+
+p {
+  margin: 6px 0;
+  color: #45545e;
+}
+
+.muted {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.hero {
+  background: #f3ebdd;
+  border-radius: 16px;
+  padding: 22px;
+  color: #253b35;
+}
+
+.hero h2 {
+  font-size: 26px;
+  margin: 10px 0 4px;
+}
+
+.pill {
+  display: inline-block;
+  background: #e9f3ef;
+  color: #26775f;
+  padding: 4px 9px;
+  border-radius: 30px;
+  font-size: 12px;
+  font-weight: 700;
+  margin: 3px 5px 3px 0;
+}
+
+.book-list {
+  display: grid;
+  grid-template-columns:
+    repeat(auto-fit, minmax(230px, 1fr));
+  gap: 12px;
+}
+
+.book {
+  display: flex;
+  gap: 13px;
+  align-items: center;
+  border: 1px solid var(--line);
+  padding: 12px;
+  border-radius: 14px;
+  cursor: pointer;
+  text-align: left;
+  background: white;
+  color: var(--ink);
+  width: 100%;
+}
+
+.cover {
+  width: 62px;
+  height: 76px;
+  border-radius: 9px;
+  display: grid;
+  place-items: center;
+  font-size: 28px;
+  font-weight: 800;
+  color: #263b4a;
+  flex-shrink: 0;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.filters {
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+  margin: 12px 0;
+}
+
+.filters button {
+  background: white;
+  color: var(--ink);
+  border: 1px solid var(--line);
+  font-size: 13px;
+  padding: 7px 11px;
+}
+
+.filters button.active {
+  background: var(--navy);
+  color: white;
+}
+
+.takeaway {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.takeaway:last-child { border: 0; }
+
+.segment {
+  display: flex;
+  gap: 6px;
+  background: #eef2f4;
+  border-radius: 12px;
+  padding: 4px;
+}
+
+.segment button {
+  flex: 1;
+  background: transparent;
+  color: var(--muted);
+}
+
+.segment button.active {
+  background: white;
+  color: var(--ink);
+  box-shadow: 0 1px 4px #0001;
+}
+
+.reader {
+  background: #f7f9fa;
+  border-radius: 15px;
+  padding: 18px;
+  margin: 12px 0;
+}
+
+.progress {
+  height: 7px;
+  background: #e5eaed;
+  border-radius: 9px;
+  overflow: hidden;
+  margin: 10px 0;
+}
+
+.progress span {
+  display: block;
+  height: 100%;
+  background: var(--green);
+}
+
+.audio {
+  text-align: center;
+  background: #e9f0f3;
+  padding: 28px;
+  border-radius: 16px;
+  color: #25495a;
+}
+
+.headphones { font-size: 48px; }
+
+.price {
+  font-size: 30px;
+  font-weight: 800;
+  color: var(--green);
+}
+
+footer {
+  text-align: center;
+  color: var(--muted);
+  font-size: 11px;
+  padding: 12px;
+}
+
+@media(max-width:560px) {
+  header { padding: 16px; }
+  .panel { padding: 16px; }
+  main { margin-top: 14px; }
+  .hero h2 { font-size: 23px; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="brand">
+    <span class="logo">B</span>
+    book bites
+  </div>
+
+  <div class="tagline">Small bites. Big ideas.</div>
+
+  <nav id="nav">
+    <button data-page="home" class="active">Home</button>
+    <button data-page="explore">Explore</button>
+    <button data-page="saved">Saved</button>
+    <button data-page="profile">My account</button>
+  </nav>
+</header>
+
+<main id="app"></main>
+
+<footer>
+  BOOK BITES · CONCEPT PROTOTYPE · No account or payment is collected
+</footer>
+
+<script>
+
+// SAMPLE BOOK CONTENT
+
+const books = [
+{
+  id: 1,
+  title: "Atomic Habits",
+  author: "James Clear",
+  category: "Personal Growth",
+  time: "7 min",
+  cover: "A",
+  color: "#dce8d9",
+  summary: "Small changes, remarkable results.",
+  takeaways: [
+    "Make habits obvious, attractive, easy and satisfying.",
+    "Focus on systems rather than only goals.",
+    "Use small improvements to build lasting progress."
+  ],
+  bite: "The 1% improvement idea: getting slightly better each day can create significant long-term progress. Instead of relying on motivation, redesign your environment so the desired behaviour becomes easier."
+},
+{
+  id: 2,
+  title: "The Psychology of Money",
+  author: "Morgan Housel",
+  category: "Finance",
+  time: "6 min",
+  cover: "₹",
+  color: "#f2e5cf",
+  summary: "How behaviour shapes financial decisions.",
+  takeaways: [
+    "Financial success depends heavily on behaviour.",
+    "Compounding rewards patience and consistency.",
+    "Knowing when you have enough is an important skill."
+  ],
+  bite: "Being good with money is not necessarily about knowing complex formulas. It is about managing your behaviour: staying patient, avoiding unnecessary risks and allowing compounding to work over time."
+},
+{
+  id: 3,
+  title: "Deep Work",
+  author: "Cal Newport",
+  category: "Productivity",
+  time: "8 min",
+  cover: "D",
+  color: "#dce4f3",
+  summary: "Build the ability to focus without distraction.",
+  takeaways: [
+    "Deep focus creates valuable output.",
+    "Schedule distraction-free work sessions.",
+    "Reduce shallow work and digital interruptions."
+  ],
+  bite: "Deep work is focused professional activity performed without distraction. The ability to concentrate deeply is increasingly valuable because many modern work environments reward constant availability rather than meaningful output."
+},
+{
+  id: 4,
+  title: "The Lean Startup",
+  author: "Eric Ries",
+  category: "Business",
+  time: "5 min",
+  cover: "L",
+  color: "#e8ddf0",
+  summary: "Test ideas before investing heavily.",
+  takeaways: [
+    "Build, measure and learn.",
+    "Validate assumptions with real customers.",
+    "Use experiments to reduce uncertainty."
+  ],
+  bite: "Rather than spending months building a complete product, create the smallest version that can test your riskiest assumption. Real customer feedback should guide what you build next."
+}
+];
+
+// APP STATE
+
+let page = "home";
+let bookId = 1;
+let format = "Text";
+let saved = [2];
+let category = "All";
+let completed = [];
+let progress = 28;
+let playing = false;
+let plan = "Monthly";
+
+const app = document.getElementById("app");
+
+function book() {
+  return books.find(b => b.id === bookId) || books[0];
+}
+
+function go(p) {
+  page = p;
+  playing = false;
+
+  document.querySelectorAll("nav button")
+    .forEach(b => b.classList.toggle(
+      "active", b.dataset.page === p
+    ));
+
+  render();
+}
+
+document.querySelectorAll("nav button")
+  .forEach(b => b.onclick = () => go(b.dataset.page));
+
+function openBook(id) {
+  bookId = id;
+  go("detail");
+}
+
+function card(b) {
+  return `
+    <button class="book" onclick="openBook(${b.id})">
+      <span class="cover" style="background:${b.color}">
+        ${b.cover}
+      </span>
+      <span>
+        <strong>${b.title}</strong><br>
+        <span class="muted">${b.author}</span><br>
+        <span class="muted">
+          ${b.category} · ${b.time}
+        </span>
+      </span>
+    </button>
+  `;
+}
+
+// SCREEN RENDERING
+
+function render() {
+
+  let b = book();
+  let out = "";
+
+  // HOME
+
+  if (page === "home") {
+
+    out = `
+      <section class="panel">
+        <h1>Good evening!</h1>
+        <p class="muted">
+          What would you like to learn today?
+        </p>
+
+        <div class="hero">
+          <span class="pill">TODAY'S FEATURED BITE</span>
+          <h2>Build better habits</h2>
+          <p>From Atomic Habits · James Clear</p>
+          <p>
+            Discover how small behavioural changes
+            can create lasting results.
+          </p>
+
+          <div class="row">
+            <span class="muted">
+              7 min · Personal Growth
+            </span>
+            <button onclick="openBook(1)">
+              Explore bite
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="row">
+          <h2>Continue learning</h2>
+          <button class="secondary"
+            onclick="go('explore')">
+            See all
+          </button>
+        </div>
+
+        <div class="book-list">
+          ${books.slice(1,3).map(card).join("")}
+        </div>
+      </section>
+
+      <section class="panel">
+        <h3>Your learning streak</h3>
+        <div class="price">
+          ${completed.length} bites completed
+        </div>
+        <p class="muted">
+          Every small session adds up.
+          Start your next bite today.
+        </p>
+      </section>
+    `;
+  }
+
+  // EXPLORE AND SAVED
+
+  if (page === "explore" || page === "saved") {
+
+    let list = books.filter(x =>
+      (category === "All" || x.category === category) &&
+      (page !== "saved" || saved.includes(x.id))
+    );
+
+    out = `
+      <section class="panel">
+        <h1>
+          ${page === "saved"
+            ? "Your saved bites"
+            : "Explore Book Bites"}
+        </h1>
+
+        <p class="muted">
+          ${page === "saved"
+            ? "Revisit ideas you want to remember."
+            : "Choose a topic and discover a new idea in minutes."}
+        </p>
+
+        ${page === "explore" ? `
+          <div class="filters">
+            ${["All","Personal Growth","Finance",
+              "Productivity","Business"].map(c => `
+              <button
+                class="${category === c ? "active" : ""}"
+                onclick="category='${c}';render()">
+                ${c}
+              </button>
+            `).join("")}
+          </div>
+        ` : ""}
+
+        <div class="book-list">
+          ${list.map(card).join("") ||
+            '<p class="muted">No saved bites yet. Explore a book and tap Save.</p>'}
+        </div>
+      </section>
+    `;
+  }
+
+  // BOOK DETAILS
+
+  if (page === "detail") {
+
+    out = `
+      <section class="panel">
+
+        <button class="ghost" onclick="go('explore')">
+          ← Back to explore
+        </button>
+
+        <div class="hero"
+          style="background:${b.color};text-align:center;margin:12px 0">
+          <div style="font-size:40px;font-weight:800">
+            ${b.cover}
+          </div>
+          <h2>${b.title}</h2>
+          <p>${b.author}</p>
+        </div>
+
+        <h2>${b.summary}</h2>
+
+        <span class="pill">${b.category}</span>
+        <span class="pill">${b.time}</span>
+
+        <h3 style="margin-top:18px">
+          What you'll take away
+        </h3>
+
+        ${b.takeaways.map(t => `
+          <div class="takeaway">✓ &nbsp;${t}</div>
+        `).join("")}
+
+        <div class="row" style="margin:18px 0 10px">
+          <h3>Your preferred format</h3>
+
+          <button class="secondary"
+            onclick="
+              saved.includes(${b.id})
+                ? saved=saved.filter(x=>x!==${b.id})
+                : saved.push(${b.id});
+              render();
+            ">
+            ${saved.includes(b.id) ? "▣ Saved" : "＋ Save"}
+          </button>
+        </div>
+
+        <div class="segment">
+          <button class="${format === "Text" ? "active" : ""}"
+            onclick="format='Text';render()">
+            Read
+          </button>
+
+          <button class="${format === "Audio" ? "active" : ""}"
+            onclick="format='Audio';render()">
+            Listen
+          </button>
+        </div>
+
+        <button style="width:100%;margin-top:12px"
+          onclick="go('reader')">
+          Start ${format === "Text" ? "reading" : "listening"} →
+        </button>
+
+      </section>
+    `;
+  }
+
+  // READING / LISTENING EXPERIENCE
+
+  if (page === "reader") {
+
+    out = `
+      <section class="panel">
+
+        <button class="ghost" onclick="go('detail')">
+          ← Book details
+        </button>
+
+        <div class="row">
+          <h2>${b.title}</h2>
+          <span class="pill">${format} mode</span>
+        </div>
+
+        <p class="muted">
+          ${b.time} · Bite in progress
+        </p>
+
+        <div class="progress">
+          <span style="width:${progress}%"></span>
+        </div>
+
+        ${format === "Text" ? `
+
+          <div class="reader">
+            <h3>The big idea</h3>
+            <p>${b.bite}</p>
+
+            <h3 style="margin-top:18px">
+              Put it into practice
+            </h3>
+
+            <p>
+              Think of one small action you can take
+              today to apply this idea. Make it specific,
+              easy to repeat and easy to track.
+            </p>
+
+            <p>
+              <strong>Remember this:</strong>
+              A useful idea becomes valuable when
+              you put it into practice.
+            </p>
+          </div>
+
+          <button class="secondary"
+            onclick="progress=Math.min(100,progress+25);render()">
+            Next section →
+          </button>
+
+        ` : `
+
+          <div class="audio">
+            <div class="headphones">🎧</div>
+            <h3>Audio bite</h3>
+
+            <p>
+              Sample audio player preview.
+              Actual voice playback is not included
+              in this prototype.
+            </p>
+
+            <div style="font-size:26px;font-weight:800">
+              ${progress === 100
+                ? "5:00"
+                : "0:" + String(Math.round(progress*3)).padStart(2,"0")}
+            </div>
+
+            <button onclick="
+              playing=!playing;
+              this.textContent=playing?'Ⅱ Pause':'▶ Play preview';
+            ">
+              ${playing ? "Ⅱ Pause" : "▶ Play preview"}
+            </button>
+
+            <button class="secondary"
+              onclick="progress=Math.min(100,progress+10);render()">
+              Skip forward
+            </button>
+
+            <p class="muted">
+              Controls simulate listening progress.
+            </p>
+          </div>
+
+          <h3>Audio transcript preview</h3>
+          <p>${b.bite}</p>
+
+        `}
+
+        <button style="width:100%;margin-top:16px"
+          onclick="
+            completed.includes(${b.id}) ||
+              completed.push(${b.id});
+            progress=100;
+            go('home');
+          ">
+          Mark bite as completed
+        </button>
+
+      </section>
+    `;
+  }
+
+  // ACCOUNT AND PRICING
+
+  if (page === "profile") {
+
+    out = `
+      <section class="panel">
+        <h1>Your Book Bites account</h1>
+
+        <div class="reader">
+          <h3>Your learning summary</h3>
+          <div class="price">
+            ${completed.length} completed bites
+          </div>
+          <p class="muted">
+            ${saved.length} saved bites · Explore more to build your library
+          </p>
+        </div>
+
+        <h2>Choose your plan</h2>
+
+        <div class="reader">
+          <div class="row">
+            <h3>Free</h3>
+            <strong>₹0</strong>
+          </div>
+          <p class="muted">Limited bites, with ads.</p>
+        </div>
+
+        <div class="reader" style="border:2px solid var(--green)">
+          <div class="row">
+            <h3>Premium</h3>
+            <strong>₹99/month</strong>
+          </div>
+
+          <p class="muted">
+            Unlimited bites, audio and text,
+            bookmarks and an ad-free experience.
+          </p>
+
+          <div class="segment">
+            <button class="${plan === "Monthly" ? "active" : ""}"
+              onclick="plan='Monthly';render()">
+              Monthly
+            </button>
+
+            <button class="${plan === "Annual" ? "active" : ""}"
+              onclick="plan='Annual';render()">
+              Annual
+            </button>
+          </div>
+
+          <div class="price">
+            ${plan === "Monthly" ? "₹99/month" : "₹799/year"}
+          </div>
+
+          <button onclick="go('pricing')">
+            Explore premium
+          </button>
+        </div>
+
+        <p class="muted">
+          Demo only. No account, payment or personal data is collected.
+        </p>
+      </section>
+    `;
+  }
+
+  if (page === "pricing") {
+
+    out = `
+      <section class="panel">
+
+        <button class="ghost" onclick="go('profile')">
+          ← Back
+        </button>
+
+        <h1>Learn more. Pay less than a book.</h1>
+
+        <p>
+          Premium is designed for people who want
+          to learn consistently without committing
+          to full-length books.
+        </p>
+
+        <div class="reader">
+          <div class="price">
+            ${plan === "Monthly" ? "₹99/month" : "₹799/year"}
+          </div>
+
+          <p class="muted">
+            ${plan === "Monthly" ? "Billed monthly" : "Billed annually"}
+          </p>
+
+          <p>✓ Unlimited text and audio bites</p>
+          <p>✓ Save and revisit key ideas</p>
+          <p>✓ No advertisements</p>
+          <p>✓ Access to all learning categories</p>
+        </div>
+
+        <p class="muted">
+          This is a concept prototype, not a live purchase flow.
+        </p>
+
+        <button onclick="go('profile')">
+          Back to plans
+        </button>
+
+      </section>
+    `;
+  }
+
+  app.innerHTML = out;
+}
+
+// INITIALISE APP
+
+render();
+
+</script>
+</body>
+</html>
